@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import Error from 'next/error';
+import StoryList from '../components/storyList';
+import Layout from '../components/layout';
 
 class Index extends React.Component{
 
@@ -22,14 +24,9 @@ class Index extends React.Component{
             return <Error statusCode={503}/>
         }
         return(
-            <div>
-                <h1>hacker next</h1>
-                <div>
-                    {stories.map(story => {
-                        return(<h2 key={story.id}>{story.title}</h2>)
-                    })}
-                </div>
-            </div>
+            <Layout title="Hacker Next" description="A Hacker News clone made with Next.js">
+                <StoryList stories={stories} />
+            </Layout>
         )
     }
 }
