@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Head from 'next/head';
+import Router from 'next/router';
 
-const Layout = ({children, title, description}) => (
+const Layout = ({children, title, description, backButton}) => (
 <div>
     <Head>
         <title>{title}</title>
@@ -9,7 +10,9 @@ const Layout = ({children, title, description}) => (
     </Head>
     <div className="container">
         <nav>
-            <Link>
+            {backButton && <span onClick={()=> Router.back()}
+            className="back-button">&#x2b05;</span>}
+            <Link href="/">
                 <a>
                     <span className="main-title">Hacker Next</span>
                 </a>
@@ -40,6 +43,12 @@ const Layout = ({children, title, description}) => (
 
         nav .main-title {
             font-weight: bold;
+        }
+
+        nav .back-button {
+            font-size: 1.1rem;
+            padding-right: 1em;
+            cursor: pointer;
         }
     `}</style>
     <style global jsx>
