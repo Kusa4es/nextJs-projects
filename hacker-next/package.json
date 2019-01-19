@@ -4,14 +4,20 @@
   "description": "A hacker news clone with Next.js",
   "main": "server.js",
   "scripts": {
-    "dev": "next"
+    "dev": "node server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "build": "next build",
+    "export": "next export",
+    "deploy": "cd out && now --public"
   },
   "author": "Evgeniy Baranov",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "isomorphic-fetch": "^2.2.1",
     "next": "^7.0.2",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "sw-precache-webpack-plugin": "^0.11.5"
   }
 }
