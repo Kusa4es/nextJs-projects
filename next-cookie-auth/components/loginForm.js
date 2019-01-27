@@ -5,7 +5,9 @@ import Router from 'next/router';
 class LoginForm extends React.Component {
 state = {
     email: '',
-    password: ''
+    password: '',
+    error: '',
+    isLoading: false
 };
 
 handleChange = event => {
@@ -16,16 +18,28 @@ handleChange = event => {
 }
 
 handleSubmit = event => {
-    //debugger
+   // debugger
     const {email,password} = this.state;
     event.preventDefault();
-    loginUser(email, password).then(() => {
+    this.setState({ error: '', isLoading: true})
+    loginUser(email, password)
+    .then(() => {
        // debugger
         Router.push("/profile");
     })
+    .catch(this.showError)
+}
+
+showError = err => {
+    //debugger
+    console.error(err);
+    const error = err.response && err.response.data || err.message;
+    this.setState({error, isLoading: false});
 }
 
     render(){
+        //debugger
+        const {email,password, error, isLoading} = this.state;
         return(
             <div>
                 <h1>User info</h1>
@@ -37,6 +51,7 @@ handleSubmit = event => {
                             type="email"
                             name="email"
                             placeholder="email"
+                            value={email}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -45,10 +60,14 @@ handleSubmit = event => {
                             type="password"
                             name="password"
                             placeholder="password"
+                            value={password}
                             onChange={this.handleChange}
                         />
                     </div>
-                    <button type="submit">Submit</button>
+                    <button disabled={isLoading} type="submit">
+                        {isLoading ? "Sending" : "Submit"}
+                    </button>
+                    {error && <div>{error}</div>}
                 </form>
             </div>
             
