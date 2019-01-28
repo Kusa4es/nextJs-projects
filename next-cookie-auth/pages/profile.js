@@ -1,29 +1,22 @@
-import {getUserProfile} from '../lib/auth';
-import Layout from '../components/layout';
+import Layout from "../components/layout";
+import { getUserProfile, authInitialProps } from "../lib/auth";
 
-export default class Prodile extends React.Component {
+export default class Profile extends React.Component {
+  state = {
+    user: "Loading profile..."
+  };
 
-    state = {
-        user: null
-    }
+  componentDidMount() {
+    getUserProfile().then(user => this.setState({ user }));
+  }
 
-    componentDidMount(){
-        getUserProfile().then(user => this.setState({user}))
-    }
-
-    render() {
-        //debugger
-        console.log("state profile: ", this.state)
-        if(this.state.user === null ) {
-            return <p>user is not autenticated</p>
-        }
-        return(
-            <Layout title="Profile">
-                <pre>
-                    {JSON.stringify(this.state.user, null, 2)}
-                </pre>
-            </Layout>
-            
-        )
-    }
+  render() {
+    return (
+      <Layout title="Profile" {...this.props}>
+        <pre>{JSON.stringify(this.state.user, null, 2)}</pre>
+      </Layout>
+    );
+  }
 }
+
+Profile.getInitialProps = authInitialProps(true);

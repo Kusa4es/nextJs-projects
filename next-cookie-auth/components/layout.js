@@ -1,27 +1,43 @@
-import Link from 'next/link';
+import Link from "next/link";
+//import { logoutUser } from "../lib/auth";
 
-const  Layout = ({title, children}) => (
+const Layout = ({ title, children, auth }) => {
+  debugger
+  const { user = {} } = auth || {};
+
+  return (
     <div className="root">
-        <nav className="navbar">
-            <span>Welcome, <strong>Guest</strong></span>
-            <div>
-                <Link href="/">
-                    <a>Home</a>
-                </Link>
-                <Link href="/profile">
-                    <a>Profile</a>
-                </Link>
-                <button>Logout</button>
-                <Link href="/login">
-                    <a>Login</a>
-                </Link>
-            </div>
-        </nav>
+      <nav className="navbar">
+        <span>
+          Welcome, <strong>{user.name || "Guest"}</strong>
+        </span>
 
-        <h1>{title}</h1>
-        {children}
+        <div>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
 
-        <style jsx>{`
+          {user.email ? (
+            // Auth Navigation
+            <React.Fragment>
+              <Link href="/profile">
+                <a>Profile</a>
+              </Link>
+              <button>Logout</button>
+            </React.Fragment>
+          ) : (
+            // UnAuth Navigation
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          )}
+        </div>
+      </nav>
+
+      <h1>{title}</h1>
+      {children}
+
+      <style jsx>{`
         .root {
           display: flex;
           align-items: center;
@@ -46,6 +62,7 @@ const  Layout = ({title, children}) => (
         }
       `}</style>
     </div>
-)
+  );
+};
 
 export default Layout;
