@@ -4,7 +4,11 @@
   "description": "Cookie authentication with Next.js",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "build": "next build",
+    "export": "next export",
+    "deploy": "cd out && now --public"
   },
   "author": "Evgeniy Baranov",
   "license": "ISC",

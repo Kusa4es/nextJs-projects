@@ -2,7 +2,7 @@ import Link from "next/link";
 import { logoutUser } from "../lib/auth";
 
 const Layout = ({ title, children, auth }) => {
-  debugger
+  //debugger
   const { user = {} } = auth || {};
 
   return (

@@ -28,10 +28,27 @@ export const getUserScript = user => {
   return `${WINDOW_USER_SCRIPT_VARIABLE} = ${JSON.stringify(user)};`;
 } 
 
-export const authInitialProps = () => ({req, res}) => {
+export const authInitialProps = (isProtectedRoute) => ({req, res}) => {
   debugger
   const auth = req ? getServerSideToken(req) : getClientSideToken();
+  const currentPath = req ? req.url : window.location.pathname;
+  const user = auth.user;
+  const isAnonymous = !user || user.type !== "autenticated";
+  if(isProtectedRoute && isAnonymous && currentPath !== '/login'){
+    return redirectUser(res, '/login');
+  }
   return { auth };
+}
+
+const redirectUser = (res, path) => {
+  debugger
+  // if(res){
+  //   res.redirect(304, path);
+  //   res.finished = true;
+  //   return {};
+  // }
+ // Router.replace(path);
+  return {};
 }
 
 export const loginUser = async (email, password) => {
@@ -43,6 +60,7 @@ export const loginUser = async (email, password) => {
 }
 
 export const logoutUser = async () => {
+  //debugger
   if(typeof window !== 'undefined'){
     window[WINDOW_USER_SCRIPT_VARIABLE] = {};
   }
