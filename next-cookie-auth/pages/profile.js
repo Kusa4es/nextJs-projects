@@ -2,9 +2,13 @@ import Layout from "../components/layout";
 import { getUserProfile, authInitialProps } from "../lib/auth";
 
 export default class Profile extends React.Component {
-  state = {
-    user: "Loading profile..."
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: "Loading profile..."
+    }
+  }
 
   componentDidMount() {
     getUserProfile().then(user => this.setState({ user }));

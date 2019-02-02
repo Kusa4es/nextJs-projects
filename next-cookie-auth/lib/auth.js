@@ -35,19 +35,24 @@ export const authInitialProps = (isProtectedRoute) => ({req, res}) => {
   const user = auth.user;
   const isAnonymous = !user || user.type !== "autenticated";
   if(isProtectedRoute && isAnonymous && currentPath !== '/login'){
-    return redirectUser(res, '/login');
+   // return redirectUser(res, '/login');
+    //Router.push('/login');
+    return {};
+  }else{
+    return { auth };
   }
-  return { auth };
+  
+ 
 }
 
 const redirectUser = (res, path) => {
   debugger
-  // if(res){
-  //   res.redirect(304, path);
-  //   res.finished = true;
-  //   return {};
-  // }
- // Router.replace(path);
+  if(res){
+    res.redirect(304, path);
+    res.finished = true;
+    return {};
+  }
+ Router.replace(path);
   return {};
 }
 
